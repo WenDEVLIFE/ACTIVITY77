@@ -1,5 +1,6 @@
 package com.example.activity77
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -35,6 +36,10 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 if (usernameText == "JohnDoe" && passwordText == "JohnDoe") {
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    finish() // Close the login activity
 
                 } else {
                     username.error = "Invalid username or password"
