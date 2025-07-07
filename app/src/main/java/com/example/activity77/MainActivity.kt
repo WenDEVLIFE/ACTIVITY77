@@ -34,6 +34,11 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button9).setOnClickListener { calculate("-") }
         findViewById<Button>(R.id.button10).setOnClickListener { calculate("×") }
         findViewById<Button>(R.id.button11).setOnClickListener { calculate("/") }
+        findViewById<Button>(R.id.buttonback).setOnClickListener {
+            val intent = android.content.Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+            finish() // Close the MainActivity
+        }
     }
 
     private fun calculate(operation: String) {
