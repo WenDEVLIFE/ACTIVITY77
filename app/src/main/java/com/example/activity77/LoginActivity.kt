@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -21,36 +22,46 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val  username = findViewById<EditText>(R.id.editTextTextEmailAddress)
-        val password = findViewById<EditText>(R.id.editTexttextPassword)
-
         val loginButton = findViewById<Button>(R.id.button)
         loginButton.setOnClickListener {
-
-            val usernameText = username.text.toString()
-            val passwordText = password.text.toString()
-
-            if (usernameText.isEmpty() || passwordText.isEmpty()) {
-                username.error = "Username cannot be empty"
-                password.error = "Password cannot be empty"
-            } else {
-                if (usernameText == "JohnDoe" && passwordText == "JohnDoe") {
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
-                    finish() // Close the login activity
-
-                } else {
-                    username.error = "Invalid username or password"
-                    password.error = "Invalid username or password"
-                }
-            }
+            showLoginDialog()
 
         }
     }
 
+    private fun showLoginDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.logindialog, null)
+        val usernameInput = dialogView.findViewById<EditText>(R.id.dialogUsername)
+        val passwordInput = dialogView.findViewById<EditText>(R.id.dialogPassword)
 
+        AlertDialog.Builder(this)
+            .setTitle("Login")
+            .setView(dialogView)
+            .setPositiveButton("OK") { _, _ ->
+                val usernameText = usernameInput.text.toString()
+                val passwordText = passwordInput.text.toString()
+
+                if (usernameText.isEmpty() || passwordText.isEmpty()) {
+                    usernameInput.error = "Username cannot be empty"
+                    passwordInput.error = "Password cannot be empty"
+                } else {
+                    if (usernameText == "JohnDoe" && passwordText == "JohnDoe") {
+                        Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this, ProfileActivity::class.java)
+                        startActivity(intent)
+                        finish() // Close the login activity
+
+                    } else {
+                        usernameInput.error = "Invalid username or password"
+                        passwordInput.error = "Invalid username or password"
+                    }
+                }
+
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 
 
 }
